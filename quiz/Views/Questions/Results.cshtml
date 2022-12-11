@@ -1,0 +1,55 @@
+﻿@model quiz.Models.Questions
+@{
+    ViewData["Title"] = "Results";
+}
+<h5>Correct answers:</h5>
+
+<div class="radio-toolbar" style="padding:50px;">
+    @foreach (var question in ViewBag.Questions)
+    {
+        <div>
+            <h4>@question.Question</h4>
+
+            <div>
+                <br />
+                <br />
+                @foreach (var item in ViewBag.Choices)
+                {
+
+                    if (item.Key == question.QuestionID)
+                    {
+
+                        foreach (var items in item.Value)
+                        {
+
+
+                            <input type="radio" name="@items.Choice @item.Key" checked="@items.Is_Correct" disabled />
+                            <label for="@items.Choice">@items.Choice</label>
+                            <br />
+
+                        }
+
+                    }
+
+                }
+
+            </div>
+            <div style="padding-top:50px;"></div>
+        </div>
+    }
+
+</div>
+
+<form method="post" asp-action="Index" asp-controller="Home">
+
+    <input class="btn btn-primary btn-lg rph-login-button" type="submit" value="Back" />
+
+</form>
+
+<div style="padding-top:50px;"></div>
+
+<script>
+
+    alert("Your result is @ViewBag.Result out of @ViewBag.Questions.Count");
+
+</script>

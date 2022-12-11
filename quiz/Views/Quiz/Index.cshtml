@@ -1,0 +1,60 @@
+﻿@model quiz.Models.Tests
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div style="padding-top:50px;">
+    <h5>Tests:</h5>
+</div>
+<div style="padding:50px;">
+
+    @foreach (var item in ViewBag.Tests)
+    {<form method="post" asp-action="Index" asp-controller="Questions">
+
+            <div class="radio-toolbar">
+
+                <input id="@item.Name" type="radio" name="TestId" disabled value="@item.TestID" />
+                <label for="@item.Name">@item.Name</label>
+                <input type="hidden" name="TestId" value="@item.TestID" />
+                <br /><br />
+                <button type="button" class="btn btn-success" id="start @item.TestID" style="width:120px;" data-toggle="modal" data-target="#exampleModal @item.TestID">Start</button>
+            </div>
+            <br /><br />
+            <div id="exampleModal @item.TestID" class="modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Details about @item.Name</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label>Description:</label>
+                                <label id="Description">@item.Description</label>
+                            </div>
+                            <div class="form-group">
+                                <label>Count of Qustions: <span id="CQ">@item.CountQuestions</span></label>
+
+                            </div>
+                            <div class="form-group">
+                                <div>
+                                    <label>I agree to start</label>
+                                    <input type="checkbox" onchange="document.getElementById('submit @item.TestID').disabled = !this.checked;" name="checkbox" id="checkbox" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="submit @item.TestID" disabled class="btn btn-primary">Proceed</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    }
+    <br />
+
+</div>
+

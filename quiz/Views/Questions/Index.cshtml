@@ -1,0 +1,71 @@
+﻿@model quiz.Models.Questions
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (ViewBag.Message == null)
+{
+    @if (ViewBag.CurrentPage < ViewBag.Pages)
+    {
+        <form method="post" asp-action="Index" asp-controller="Questions">
+
+            <div>
+                <h5>Question: @ViewBag.CurrentPage of @ViewBag.Pages</h5>
+                <div style="padding-top:50px;"></div>
+                <h4 for="@ViewBag.Name.Question">@ViewBag.Name.Question</h4>
+                <br />
+                @foreach (var item in ViewBag.Choices)
+                {
+                    <div class="radio-toolbar">
+
+                        <input type="radio" onclick="document.getElementById('submit').disabled = !this.checked" name="ChoiceId" value="@item.ChoiceId" id="@item.Choice" />
+                        <label for="@item.Choice">@item.Choice</label>
+
+                        <input type="hidden" name="TestId" value="@ViewBag.TestId">
+                        <input type="hidden" name="Page" value="@ViewBag.CurrentPage">
+                        <input type="hidden" name="CurrentScore" value="@ViewBag.Result">
+                        <br />
+                    </div>
+                }
+                <input class="btn btn-primary btn-lg rph-login-button" type="submit" id="submit" disabled value="Next question" />
+            </div>
+
+            <br />
+        </form>
+    }
+    else if (ViewBag.CurrentPage == ViewBag.Pages)
+    {
+        <form method="post" asp-action="Results" asp-controller="Questions">
+
+            <div>
+                <h5>Question: @ViewBag.CurrentPage of @ViewBag.Pages</h5>
+                <div style="padding-top:50px;"></div>
+                <h4 for="@ViewBag.Name.Question">@ViewBag.Name.Question</h4>
+                <br />
+                @foreach (var item in ViewBag.Choices)
+                {
+                    <div class="radio-toolbar">
+                        <input type="radio" onclick="document.getElementById('finish').disabled = !this.checked" value="@item.ChoiceId" name="ChoiceId" id="@item.Choice" />
+                        <label for="@item.Choice">@item.Choice</label>
+
+                        <input type="hidden" name="TestId" value="@ViewBag.TestId">
+                        <input type="hidden" name="CurrentScore" value="@ViewBag.Result">
+                        <br />
+                    </div>
+                }
+                <br />
+                <input style="width: 150px;" class="btn btn-primary btn-lg rph-login-button" type="submit" id="finish" disabled value="finish" />
+            </div>
+
+            <br />
+        </form>
+    }
+}
+else
+{
+    <script>
+
+        alert(@ViewBag.Message)
+
+    </script>
+}
